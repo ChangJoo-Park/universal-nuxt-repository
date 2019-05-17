@@ -57,7 +57,10 @@ module.exports = {
    ** Watch
    */
   watch: [
-    '~/api/**/*.js'
+    '~/api/**/*.js',
+    '~/api/router/*.js',
+    '~/models/**/*.js',
+    '~/migrations/**/*.js'
   ],
   /*
    ** Nuxt.js modules
