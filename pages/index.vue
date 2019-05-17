@@ -4,6 +4,9 @@
       <div>
         <nuxt-link :to="{ name: 'other' }">OTHER</nuxt-link>
       </div>
+      <div>
+        {{ posts }}
+      </div>
       <logo />
       <h1 class="title">
         universal-nuxt-boilerplate
@@ -33,7 +36,14 @@ export default {
   components: {
     Logo
   },
-  asyncData(ctx) {},
+  asyncData(ctx) {
+    console.log(ctx.app.$repositories)
+    return ctx.app.$repositories.post.index().then(response => {
+      return {
+        posts: response.data
+      }
+    })
+  },
   mounted() {
     this.$repositories.post
       .index()
