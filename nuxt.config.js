@@ -50,8 +50,15 @@ module.exports = {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [],
-
+  plugins: [
+    '~/plugins/repository.js'
+  ],
+  /*
+   ** Watch
+   */
+  watch: [
+    '~/api/**/*.js'
+  ],
   /*
    ** Nuxt.js modules
    */
@@ -60,7 +67,12 @@ module.exports = {
     '@nuxtjs/axios',
     '@nuxtjs/pwa'
   ],
-
+  /*
+   ** Server Middleware
+   */
+  serverMiddleware: [
+    '~/api/router-middleware'
+  ],
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options

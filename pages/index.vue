@@ -1,6 +1,9 @@
 <template>
   <div class="container">
     <div>
+      <div>
+        <nuxt-link :to="{ name: 'other' }">OTHER</nuxt-link>
+      </div>
       <logo />
       <h1 class="title">
         universal-nuxt-boilerplate
@@ -29,6 +32,25 @@ import Logo from '~/components/Logo.vue'
 export default {
   components: {
     Logo
+  },
+  asyncData(ctx) {},
+  mounted() {
+    this.$repositories.post
+      .index()
+      .then(response => {
+        console.log(response)
+      })
+      .catch(error => {
+        console.log(error)
+      })
+    this.$repositories.post
+      .show(1)
+      .then(response => {
+        console.log(response)
+      })
+      .catch(error => {
+        console.log(error)
+      })
   }
 }
 </script>
