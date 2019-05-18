@@ -14,7 +14,8 @@ export const createRouter = () => {
 
   router.get('/api/posts', (req, res) => {
     Post.findAll({
-      include: [{ model: User }]
+      include: [{ model: User }],
+      limit: 10
     })
       .then(result => {
         res.json(result)

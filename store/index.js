@@ -30,10 +30,11 @@ export const actions = {
     commit('setUser', user)
   },
   setToken({ commit }, token) {
-    commit('setUser', `bearer ${token}`)
+    commit('setToken', token)
   }
 }
 
 export const getters = {
-  authenticated: state => !!state.user
+  authenticated: state => !!state.user && !!state.token,
+  user: state => state.user
 }

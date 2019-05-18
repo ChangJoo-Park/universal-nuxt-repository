@@ -32,7 +32,7 @@ export default {
     ...mapGetters(['authenticated'])
   },
   methods: {
-    ...mapActions(['setUser']),
+    ...mapActions(['setToken', 'setUser']),
     onSubmit() {
       this.$repositories.auth.login({
         email: this.email,
@@ -41,8 +41,9 @@ export default {
         .then((response) => {
           const { token, user } = response.data
           Cookies.set('authorization', `bearer ${token}`)
-          this.setToken(token)
+          this.setToken(`bearer ${token}`)
           this.setUser(user)
+          this.$router.push({ name: 'index' })
         })
         .catch((error) => {
           console.error('error => ', error)

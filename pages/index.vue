@@ -10,7 +10,7 @@
             class="border p-3 mb-3 cursor-pointer bg-blue-400 hover:bg-blue-600 hover:text-white"
             :to="{ name: 'posts-id', params: { id: post.id } }"
           >
-            {{ post.title }} - {{ post.createdAt }} - {{ post.User.username }}
+            {{ post.title }} - {{ post.createdAt }}
           </nuxt-link>
         </ul>
       </div>
