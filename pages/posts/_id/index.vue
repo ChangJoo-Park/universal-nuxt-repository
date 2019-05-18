@@ -28,14 +28,6 @@
 import { mapGetters } from 'vuex'
 
 export default {
-  asyncData({ app, params, store }) {
-    return app.$repositories.post.show(params.id)
-      .then((response) => {
-        return {
-          post: response.data
-        }
-      })
-  },
   computed: {
     ...mapGetters(['user']),
     author() {
@@ -44,6 +36,14 @@ export default {
       }
       return false
     }
+  },
+  asyncData({ app, params, store }) {
+    return app.$repositories.post.show(params.id)
+      .then((response) => {
+        return {
+          post: response.data
+        }
+      })
   }
 }
 </script>
