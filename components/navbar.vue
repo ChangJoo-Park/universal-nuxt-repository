@@ -1,21 +1,26 @@
 <template>
-  <div class="mb-3">
-    <div v-if="authenticated">
-      <nuxt-link :to="{ name: 'index' }">
-        HOME
-      </nuxt-link>
-      <nuxt-link :to="{ name: 'posts-new' }" class="text-blue-500 underline">
-        NEW POST
-      </nuxt-link>
-      <a href="#" @click.prevent="logout">Logout</a>
+  <div class="container mx-auto mb-3 flex justify-between items-center">
+    <div class="py-1 px-2">
+      <img src="https://via.placeholder.com/150" alt="brand-logo" width="60px" height="60px">
     </div>
-    <div v-else>
-      <nuxt-link :to="{ name: 'login' }" class="text-blue-500 underline">
-        LOGIN
-      </nuxt-link>
-      <nuxt-link :to="{ name: 'signup' }" class="text-blue-500 underline">
-        SIGN UP
-      </nuxt-link>
+    <div>
+      <template v-if="authenticated">
+        <nuxt-link :to="{ name: 'index' }">
+          HOME
+        </nuxt-link>
+        <nuxt-link :to="{ name: 'posts-new' }" class="nav-link">
+          NEW POST
+        </nuxt-link>
+        <a href="#" @click.prevent="logout">Logout</a>
+      </template>
+      <template v-else>
+        <nuxt-link :to="{ name: 'login' }" class="nav-link">
+          LOGIN
+        </nuxt-link>
+        <nuxt-link :to="{ name: 'signup' }" class="nav-link">
+          SIGN UP
+        </nuxt-link>
+      </template>
     </div>
   </div>
 </template>
@@ -39,6 +44,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="postcss">
+.nav-link {
+  @apply text-blue-500 underline cursor-pointer mr-2;
+}
 </style>
