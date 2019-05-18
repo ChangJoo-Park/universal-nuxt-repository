@@ -11,17 +11,11 @@ const opts = {}
 export const createRouter = () => {
   const router = express.Router()
   router.use(bodyParser.json())
+
   router.get('/api/posts', (req, res) => {
-    Post.findAll()
-      .then(result => {
-        res.json(result)
-      })
-      .catch(e => {
-        res.status(500).json(e)
-      })
-  })
-  router.get('/api/posts/:id', (req, res) => {
-    Post.findByPk(parseInt(req.params.id))
+    Post.findAll({
+      include: [{ model: User }]
+    })
       .then(result => {
         res.json(result)
       })
@@ -30,9 +24,10 @@ export const createRouter = () => {
       })
   })
 
-  router.post('/api/posts', (req, res) => {
-    const { title, body } = req.body
-    Post.create({ title, body })
+  router.get('/api/posts/:id', (req, res) => {
+    Post.findByPk(parseInt(req.params.id), {
+      include: [{ model: User }]
+    })
       .then(result => {
         res.json(result)
       })
@@ -40,7 +35,19 @@ export const createRouter = () => {
         res.status(500).json(e)
       })
   })
-  router.put('/api/posts/:id', (req, res) => {
+
+  router.post('/api/posts', passport.authenticate('jwt', { session: false }), (req, res) => {
+    const { title, body } = req.body
+    Post.create({ title, body, userId: req.user.id })
+      .then(result => {
+        res.json(result)
+      })
+      .catch(e => {
+        res.status(500).json(e)
+      })
+  })
+
+  router.put('/api/posts/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
     const { title, body } = req.body
     Post.update({ title, body }, { where: { id: parseInt(req.params.id) } })
       .then(result => {
@@ -50,6 +57,7 @@ export const createRouter = () => {
         res.status(500).json(e)
       })
   })
+
   /**
    * Authentication
    */
@@ -111,7 +119,7 @@ export const createRouter = () => {
    * Users
    */
   router.get('/api/users/me', passport.authenticate('jwt', { session: false }), (req, res) => {
-    res.json({message: "Success! You can not see this without a token", user: req.user })
+    res.json({ message: "Success! You can not see this without a token", user: req.user })
   })
 
   return router

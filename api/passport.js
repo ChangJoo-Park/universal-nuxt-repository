@@ -9,7 +9,6 @@ const opts = {
 // opts.issuer = 'accounts.examplesoft.com'
 // opts.audience = 'yoursite.net'
 passport.use(new JwtStrategy(opts, function (jwt_payload, done) {
-  console.log('jwt_payload => ', jwt_payload)
   User.findByPk(jwt_payload.id)
     .then(user => {
       if (user) {

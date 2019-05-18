@@ -11,10 +11,6 @@
     <div>
       {{ authenticated }}
     </div>
-    <button @click="checkMe">
-      Click
-    </button>
-
     <nuxt-link :to="{ name: 'secret' }">
       SECRET
     </nuxt-link>
@@ -37,25 +33,16 @@ export default {
   },
   methods: {
     ...mapActions(['setUser']),
-    checkMe() {
-      this.$repositories.user.me()
-        .then((response) => {
-          console.log('response => ', response)
-        })
-        .catch((error) => {
-          console.error('error => ', error)
-        })
-    },
     onSubmit() {
       this.$repositories.auth.login({
         email: this.email,
         password: this.password
       })
         .then((response) => {
-          console.log('response => ', response)
           const { token, user } = response.data
+          Cookies.set('authorization', `bearer ${token}`)
+          this.setToken(token)
           this.setUser(user)
-          Cookies.set('authorization', 'bearer' + ' ' + token)
         })
         .catch((error) => {
           console.error('error => ', error)

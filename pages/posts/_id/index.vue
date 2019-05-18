@@ -8,14 +8,18 @@
         {{ post.body }}
       </div>
     </div>
-    <div>
-      <nuxt-link
-        :to="{ name: 'posts-id-edit', params: { id: post.id } }"
-        class="px-3 py-2 border-green-400 bg-green-400 hover:bg-green-600 cursor-pointer text-white"
-      >
-        수정
-      </nuxt-link>
+
+    <div class="mb-4">
+      {{ post.User }}
     </div>
+
+    <nuxt-link
+      :to="{ name: 'posts-id-edit', params: { id: post.id } }"
+      tag="div"
+      class="px-3 py-2 border-green-400 bg-green-400 hover:bg-green-600 cursor-pointer text-white"
+    >
+      수정
+    </nuxt-link>
   </div>
 </template>
 
