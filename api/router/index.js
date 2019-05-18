@@ -1,6 +1,8 @@
 import express from 'express'
 import bodyParser from 'body-parser'
-import { Post } from '../../models'
+import { Post, User } from '../../models'
+import Sequelize from 'sequelize'
+const Op = Sequelize.Op
 
 export const createRouter = () => {
   const router = express.Router()
@@ -44,5 +46,45 @@ export const createRouter = () => {
         res.status(500).json(e)
       })
   })
+  /**
+   * Authentication
+   */
+  router.post('/api/auth/login', (req, res) => {
+    res.json({})
+  })
+
+  router.delete('/api/auth/logout', (req, res) => {
+    res.json({})
+  })
+
+  router.post('/api/auth/signup', (req, res) => {
+    const { email, username, password } = req.body
+    User.findOrCreate({
+      attributes: ['email', 'username'],
+      where: {
+        [Op.or]: [{ email }, { username }]
+      },
+      defaults: { email, username, password }
+    })
+      .then(([user, created]) => {
+        if (created) {
+          return res.json(user)
+        }
+
+        const duplicatedUsername = username === user.username
+        const duplicatedEmail = email === user.email
+
+        return res.status(400).json({
+          duplicated: {
+            username: duplicatedUsername,
+            email: duplicatedEmail
+          }
+        })
+      })
+      .catch(error => {
+        res.status(500).json(error)
+      })
+  })
+
   return router
 }

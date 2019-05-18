@@ -20,5 +20,16 @@ export default $axios => ({
       return $axios.post(`/api/posts/${id}`)
     }
   },
+  auth: {
+    login(attributes) {
+      return $axios.post('/api/auth/login', attributes)
+    },
+    logout() {
+      return $axios.delete('/api/auth/logout')
+    },
+    signup(attributes) {
+      return $axios.post('/api/auth/signup', attributes)
+    }
+  },
   user: {}
 })

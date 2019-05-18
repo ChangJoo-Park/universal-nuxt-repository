@@ -5,6 +5,12 @@
         <nuxt-link :to="{ name: 'posts-new' }" class="text-blue-500 underline">
           NEW
         </nuxt-link>
+        <nuxt-link :to="{ name: 'login' }" class="text-blue-500 underline">
+          LOGIN
+        </nuxt-link>
+        <nuxt-link :to="{ name: 'signup' }" class="text-blue-500 underline">
+          SIGN UP
+        </nuxt-link>
       </div>
       <div>
         <ul>

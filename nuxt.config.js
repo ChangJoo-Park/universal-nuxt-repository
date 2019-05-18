@@ -58,7 +58,7 @@ module.exports = {
    */
   watch: [
     '~/api/**/*.js',
-    '~/api/router/*.js',
+    '~/api/router/**/*.js',
     '~/models/**/*.js',
     '~/migrations/**/*.js'
   ],
