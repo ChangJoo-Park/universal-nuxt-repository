@@ -53,14 +53,14 @@ export default {
           })
         })
         .catch((e) => {
-          console.log(JSON.stringify(e))
-          console.log(e.response.data)
-          const { email, username } = e.response.data.duplicated
-          if (email) {
-            this.errors.push('Email is Exists')
-          }
-          if (username) {
-            this.errors.push('Username is Exists')
+          if (e.response.status === 400) {
+            const { email, username } = e.response.data.duplicated
+            if (email) {
+              this.errors.push('Email is Exists')
+            }
+            if (username) {
+              this.errors.push('Username is Exists')
+            }
           }
         })
     }
