@@ -2,7 +2,11 @@ import express from 'express'
 import bodyParser from 'body-parser'
 import { Post, User } from '../../models'
 import Sequelize from 'sequelize'
+import jwt from 'jsonwebtoken'
+const passport = require('../passport')
+
 const Op = Sequelize.Op
+const opts = {}
 
 export const createRouter = () => {
   const router = express.Router()
@@ -50,7 +54,24 @@ export const createRouter = () => {
    * Authentication
    */
   router.post('/api/auth/login', (req, res) => {
-    res.json({})
+    const { email, password } = req.body
+    // var payload = {id: user.id};
+    // var token = jwt.sign(payload, jwtOptions.secretOrKey);
+    User.findOne({ where: { email, password } })
+      .then(result => {
+        if (result) {
+          const payload = { id: result.id }
+          const token = jwt.sign(payload, 'secret')
+          return res.json({
+            user: result,
+            token
+          })
+        }
+        return res.status(404).json({})
+      })
+      .catch(error => {
+        return res.status(500).json(error)
+      })
   })
 
   router.delete('/api/auth/logout', (req, res) => {
@@ -84,6 +105,13 @@ export const createRouter = () => {
       .catch(error => {
         res.status(500).json(error)
       })
+  })
+
+  /**
+   * Users
+   */
+  router.get('/api/users/me', passport.authenticate('jwt', { session: false }), (req, res) => {
+    res.json({message: "Success! You can not see this without a token", user: req.user })
   })
 
   return router

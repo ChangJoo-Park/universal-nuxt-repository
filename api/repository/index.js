@@ -1,3 +1,4 @@
+import Cookies from 'js-cookie'
 export default $axios => ({
   post: {
     index() {
@@ -31,5 +32,13 @@ export default $axios => ({
       return $axios.post('/api/auth/signup', attributes)
     }
   },
-  user: {}
+  user: {
+    me(token) {
+      return $axios.get('/api/users/me', {
+        headers: {
+          authorization: token || Cookies.get('authorization')
+        }
+      })
+    }
+  }
 })
