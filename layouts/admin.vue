@@ -1,17 +1,25 @@
 <template>
-  <div class="w-screen h-screen flex">
+  <div id="admin" class="w-screen h-screen flex">
     <aside class="bg-gray-400 w-48 flex flex-col shadow-xl">
       <div class="border-b-2">
         <h1 class="font-mono text-2xl text-center my-4 ">
           ADMIN
         </h1>
       </div>
-      <nav class="flex-1 mb-4 p-3">
+      <nav class="flex-1 mb-4">
         <ul>
-          <nuxt-link tag="li" :to="{ name: 'admin-users' }">
+          <nuxt-link
+            tag="li"
+            :to="{ name: 'admin-users' }"
+            class="p-3 cursor-pointer bg-gray-500 hover:bg-blue-600 text-white text-xl mb-2"
+          >
             Users
           </nuxt-link>
-          <nuxt-link tag="li" :to="{ name: 'admin-posts' }">
+          <nuxt-link
+            tag="li"
+            :to="{ name: 'admin-posts' }"
+            class="p-3 cursor-pointer bg-gray-500 hover:bg-blue-600 text-white text-xl"
+          >
             Posts
           </nuxt-link>
         </ul>
@@ -31,3 +39,9 @@ export default {
 
 }
 </script>
+
+<style lang="postcss">
+#admin .nuxt-link-active {
+  @apply bg-blue-900 !important;
+}
+</style>
