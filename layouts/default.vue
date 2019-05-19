@@ -1,7 +1,7 @@
 <template>
   <div class="h-screen flex flex-col">
     <navbar />
-    <div class="flex-1">
+    <div class="flex-1" style="margin-top: 70px;">
       <nuxt />
     </div>
     <footer class="bg-red-600 text-white py-10">

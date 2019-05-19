@@ -27,6 +27,9 @@
       <div class="font-mono text-center mb-4">
         SETTING
       </div>
+      <div class="font-mono text-center mb-4">
+        <nuxt-link :to="{ name: 'index' }">GO TO HOME</nuxt-link>
+      </div>
     </aside>
     <main class="flex-1 p-4">
       <nuxt />
@@ -41,7 +44,7 @@ export default {
 </script>
 
 <style lang="postcss">
-#admin .nuxt-link-active {
+#admin .nuxt-link-exact-active {
   @apply bg-blue-900 !important;
 }
 </style>

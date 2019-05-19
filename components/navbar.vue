@@ -1,5 +1,5 @@
 <template>
-  <div class="border border-b-2 border-black sticky top-0 bg-black text-white">
+  <div class="border border-b-2 border-black fixed w-full bg-black text-white shadow">
     <div class="container flex justify-between items-center mx-auto">
       <div class="py-1 px-2">
         <a href="/">
@@ -9,8 +9,14 @@
       <div>
         <template v-if="authenticated">
           <nuxt-link
+            :to="{ name: 'admin' }"
+            class="text-white cursor-pointer no-underline"
+          >
+            ADMIN
+          </nuxt-link>
+          <nuxt-link
             :to="{ name: 'posts-new' }"
-            class="text-white cursor-pointer no-underline hover:underline"
+            class="text-white cursor-pointer no-underline"
           >
             NEW POST
           </nuxt-link>
