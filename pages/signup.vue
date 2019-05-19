@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="">
     <form @submit.prevent="onSubmit">
       <div>
         <label for="">Email</label>
@@ -30,6 +30,7 @@
 
 <script>
 export default {
+  layout: 'fullscreen',
   data() {
     return {
       username: '',

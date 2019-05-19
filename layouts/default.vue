@@ -1,7 +1,14 @@
 <template>
-  <div>
+  <div class="h-screen flex flex-col">
     <navbar />
-    <nuxt />
+    <div class="flex-1">
+      <nuxt />
+    </div>
+    <footer class="bg-red-600 text-white py-10">
+      <div class="container mx-auto">
+        Hello World
+      </div>
+    </footer>
   </div>
 </template>
 <script>
