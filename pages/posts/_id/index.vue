@@ -8,7 +8,12 @@
         {{ post.body }}
       </div>
     </div>
-
+    <div class="mb-4">
+      {{ post.published }}
+    </div>
+    <div>
+      {{ post }}
+    </div>
     <div class="mb-4">
       {{ post.User }}
     </div>

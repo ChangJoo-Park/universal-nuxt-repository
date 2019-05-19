@@ -28,7 +28,9 @@
         SETTING
       </div>
       <div class="font-mono text-center mb-4">
-        <nuxt-link :to="{ name: 'index' }">GO TO HOME</nuxt-link>
+        <nuxt-link :to="{ name: 'index' }">
+          GO TO HOME
+        </nuxt-link>
       </div>
     </aside>
     <main class="flex-1 p-4">

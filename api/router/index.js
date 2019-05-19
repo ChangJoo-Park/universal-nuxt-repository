@@ -38,8 +38,9 @@ export const createRouter = () => {
   })
 
   router.post('/api/posts', passport.authenticate('jwt', { session: false }), (req, res) => {
-    const { title, body } = req.body
-    Post.create({ title, body, userId: req.user.id })
+    const { title, body, published } = req.body
+    console.log('post published => ', published)
+    Post.create({ title, body, published, userId: req.user.id })
       .then(result => {
         res.json(result)
       })
@@ -49,8 +50,10 @@ export const createRouter = () => {
   })
 
   router.put('/api/posts/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
-    const { title, body } = req.body
-    Post.update({ title, body }, { where: { id: parseInt(req.params.id) } })
+    const { title, body, published } = req.body
+    // TODO: move before update
+    const publishedAt = published ? new Date() : null
+    Post.update({ title, body, published, publishedAt }, { where: { id: parseInt(req.params.id) } })
       .then(result => {
         res.json(result)
       })

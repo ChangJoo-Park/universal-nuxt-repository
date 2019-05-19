@@ -20,6 +20,11 @@
         required
       />
     </div>
+    <div class="mb-4">
+      <label for="published">
+        <input id="published" v-model="published" type="checkbox"> Publish
+      </label>
+    </div>
     <input
       type="submit"
       class="px-2 py-1 border shadow cursor-pointer"
@@ -42,6 +47,7 @@ export default {
     return {
       title: '',
       body: '',
+      published: false,
       edit: false
     }
   },
@@ -49,12 +55,13 @@ export default {
     if (this.post) {
       this.title = this.post.title
       this.body = this.post.body
+      this.published = this.post.published
       this.edit = true
     }
   },
   methods: {
     submit() {
-      this.$emit('submit', { title: this.title, body: this.body })
+      this.$emit('submit', { title: this.title, body: this.body, published: this.published })
     }
   }
 }
