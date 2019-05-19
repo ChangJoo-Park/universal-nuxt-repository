@@ -1,16 +1,16 @@
 <template>
-  <div class="w-3/5 max-w-md">
-    <h1 class="text-4xl text-center font-bold mb-4">Login to BRAND</h1>
+  <div class="w-full max-w-xs">
+    <h1 class="text-4xl text-center font-bold mb-4">Login</h1>
     <div v-if="errors && errors.length > 0" class="mb-4">
       <div v-for="(error, index) in errors" :key="index" class="bg-red-500 p-2 text-white">
         {{ error }}
       </div>
     </div>
-    <form class="mb-4" @submit.prevent="onSubmit">
+    <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" @submit.prevent="onSubmit">
       <div class="mb-4">
         <label
           for="name"
-          class="block mb-1"
+          class="block text-gray-700 text-sm font-bold mb-2"
         >
           Email
         </label>
@@ -27,7 +27,7 @@
       <div class="mb-4">
         <label
           for="password"
-          class="block mb-1"
+          class="block text-gray-700 text-sm font-bold mb-2"
         >
           Password
         </label>
@@ -42,21 +42,20 @@
       </div>
       <input
         type="submit"
-        class="w-full px-3 py-2 bg-blue-400 hover:bg-blue-600 text-white cursor-pointer"
+        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline cursor-pointer"
       >
+      <div>
+      <nuxt-link
+        :to="{ name: 'signup' }"
+        class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
+      >
+        Sign up
+      </nuxt-link>
+      </div>
     </form>
-    <nuxt-link
-      :to="{ name: 'signup' }"
-      class="no-underline hover:underline block mb-4"
-    >
-      Sign up
-    </nuxt-link>
-    <nuxt-link
-      :to="{ name: 'index' }"
-      class="no-underline hover:underline block"
-    >
-      Back To Main
-    </nuxt-link>
+    <p class="text-center text-gray-500 text-xs">
+      &copy;2019 BRAND Corp. All rights reserved.
+    </p>
   </div>
 </template>
 
