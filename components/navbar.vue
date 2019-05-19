@@ -9,6 +9,7 @@
       <div>
         <template v-if="authenticated">
           <nuxt-link
+            v-if="admin"
             :to="{ name: 'admin' }"
             class="text-white cursor-pointer no-underline"
           >
@@ -47,7 +48,7 @@ import Cookies from 'js-cookie'
 
 export default {
   computed: {
-    ...mapGetters(['authenticated'])
+    ...mapGetters(['authenticated', 'admin'])
   },
   methods: {
     ...mapActions(['setUser', 'setToken']),

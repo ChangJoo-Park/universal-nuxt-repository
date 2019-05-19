@@ -36,5 +36,6 @@ export const actions = {
 
 export const getters = {
   authenticated: state => !!state.user && !!state.token,
-  user: state => state.user
+  user: state => state.user,
+  admin: (state, getters) => getters.authenticated && state.user && state.user.role === 'admin'
 }
