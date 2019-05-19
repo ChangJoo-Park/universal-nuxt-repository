@@ -5,7 +5,8 @@ module.exports = (sequelize, DataTypes) => {
     body: DataTypes.TEXT,
     published: DataTypes.TEXT,
     publishedAt: DataTypes.DATE,
-    userId: DataTypes.INTEGER
+    userId: DataTypes.INTEGER,
+    categoryId: DataTypes.INTEGER
   }, {});
   Post.addHook('beforeCreate', (post, options) => {
     if (post.published) {
@@ -16,6 +17,7 @@ module.exports = (sequelize, DataTypes) => {
   Post.associate = function(models) {
     // associations can be defined here
     Post.belongsTo(models.User)
+    Post.belongsTo(models.Category)
   };
   return Post;
 };
