@@ -16,8 +16,8 @@ export default {
     PostForm
   },
   methods: {
-    onSubmit({ title, body, published }) {
-      this.$repositories.post.create({ title, body, published })
+    onSubmit(attributes) {
+      this.$repositories.post.create(attributes)
         .then(({ data }) => {
           this.$router.push({
             name: 'posts-id',

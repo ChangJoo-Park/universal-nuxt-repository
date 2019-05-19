@@ -6,6 +6,9 @@
       </h1>
       <post-content :content="post.body" class="p-4" />
     </div>
+    <div v-if="post.Category">
+      <span class="text-red-600">{{ post.Category.name }}</span>
+    </div>
     <div class="mb-4">
       {{ post.published }}
     </div>

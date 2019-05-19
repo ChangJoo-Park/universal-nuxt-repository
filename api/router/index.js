@@ -13,8 +13,9 @@ export const createRouter = () => {
 
   router.get('/api/posts', (req, res) => {
     Post.findAll({
-      include: [{ model: User }],
-      limit: 10
+      include: [{ model: User }, { model: Category }],
+      limit: 10,
+      order: [['createdAt', 'DESC']]
     })
       .then((result) => {
         res.json(result)
@@ -27,7 +28,7 @@ export const createRouter = () => {
 
   router.get('/api/posts/:id', (req, res) => {
     Post.findByPk(parseInt(req.params.id), {
-      include: [{ model: User }]
+      include: [{ model: User }, { model: Category }]
     })
       .then((result) => {
         res.json(result)
@@ -38,8 +39,14 @@ export const createRouter = () => {
   })
 
   router.post('/api/posts', passport.authenticate('jwt', { session: false }), (req, res) => {
-    const { title, body, published } = req.body
-    Post.create({ title, body, published, userId: req.user.id })
+    const { title, body, published, categoryId = null } = req.body
+    Post.create({
+      title,
+      body,
+      published,
+      categoryId,
+      userId: req.user.id
+    })
       .then((result) => {
         res.json(result)
       })
@@ -49,10 +56,9 @@ export const createRouter = () => {
   })
 
   router.put('/api/posts/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
-    const { title, body, published } = req.body
-    // TODO: move before update
+    const { title, body, published, categoryId = null } = req.body
     const publishedAt = published ? new Date() : null
-    Post.update({ title, body, published, publishedAt }, { where: { id: parseInt(req.params.id) } })
+    Post.update({ title, body, published, publishedAt, categoryId }, { where: { id: parseInt(req.params.id) } })
       .then((result) => {
         res.json(result)
       })
