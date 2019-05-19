@@ -31,6 +31,7 @@
 <script>
 export default {
   layout: 'fullscreen',
+  middleware: ['unauthenticated'],
   data() {
     return {
       username: '',

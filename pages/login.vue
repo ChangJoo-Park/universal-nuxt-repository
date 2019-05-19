@@ -68,6 +68,7 @@ import { mapActions, mapGetters } from 'vuex'
 
 export default {
   layout: 'fullscreen',
+  middleware: ['unauthenticated'],
   data() {
     return {
       email: '',
