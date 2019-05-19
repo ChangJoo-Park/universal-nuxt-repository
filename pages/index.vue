@@ -1,8 +1,12 @@
 <template>
   <div class="">
     <div class="flex">
-      <div class="py-64 w-full bg-white">HELLO</div>
-      <div class="py-64 w-full bg-black">WORLD</div>
+      <div class="py-64 w-full bg-white">
+        HELLO
+      </div>
+      <div class="py-64 w-full bg-black">
+        WORLD
+      </div>
     </div>
     <div class="bg-gray-400">
       <ul class="container mx-auto">
@@ -18,8 +22,12 @@
       </ul>
     </div>
     <div class="flex">
-      <div class="py-64 w-full bg-black">WORLD</div>
-      <div class="py-64 w-full bg-white">HELLO</div>
+      <div class="py-64 w-full bg-black">
+        WORLD
+      </div>
+      <div class="py-64 w-full bg-white">
+        HELLO
+      </div>
     </div>
   </div>
 </template>

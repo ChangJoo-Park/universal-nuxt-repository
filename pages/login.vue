@@ -1,6 +1,8 @@
 <template>
   <div class="w-full max-w-xs">
-    <h1 class="text-4xl text-center font-bold mb-4">Login</h1>
+    <h1 class="text-4xl text-center font-bold mb-4">
+      Login
+    </h1>
     <div v-if="errors && errors.length > 0" class="mb-4">
       <div v-for="(error, index) in errors" :key="index" class="bg-red-500 p-2 text-white">
         {{ error }}
@@ -46,12 +48,12 @@
         class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline cursor-pointer"
       >
       <div>
-      <nuxt-link
-        :to="{ name: 'signup' }"
-        class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
-      >
-        Sign up
-      </nuxt-link>
+        <nuxt-link
+          :to="{ name: 'signup' }"
+          class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
+        >
+          Sign up
+        </nuxt-link>
       </div>
     </form>
     <p class="text-center text-gray-500 text-xs">
