@@ -119,6 +119,15 @@ export const createRouter = () => {
   /**
    * Users
    */
+  router.get('/api/users', passport.authenticate('jwt', { session: false }), (req, res) => {
+    User.findAll()
+      .then(result => {
+        res.json(result)
+      })
+      .catch(error => {
+        res.status(500).json(error)
+      })
+  })
   router.get('/api/users/me', passport.authenticate('jwt', { session: false }), (req, res) => {
     res.json({ message: "Success! You can not see this without a token", user: req.user })
   })

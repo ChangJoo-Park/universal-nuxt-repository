@@ -32,6 +32,9 @@ export default $axios => ({
     }
   },
   user: {
+    index() {
+      return $axios.get('/api/users')
+    },
     me() {
       return $axios.get('/api/users/me')
     }
