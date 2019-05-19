@@ -1,9 +1,7 @@
 <template>
-  <div class="container mx-auto">
-    <h1 class="text-4xl">
-      NEW POST
-    </h1>
+  <div class="w-full h-full">
     <post-form
+      class="container mx-auto"
       @submit="onSubmit"
     />
   </div>

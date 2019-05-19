@@ -39,6 +39,9 @@ export default {
       .then((response) => {
         return { posts: response.data }
       })
+      .catch((e) => {
+        console.log(e)
+      })
   }
 }
 </script>

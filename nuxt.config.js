@@ -69,7 +69,8 @@ module.exports = {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
-    '@nuxtjs/pwa'
+    '@nuxtjs/pwa',
+    '@nuxtjs/markdownit'
   ],
   /*
    ** Server Middleware
@@ -82,7 +83,14 @@ module.exports = {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {},
-
+  // [optional] markdownit options
+  // See https://github.com/markdown-it/markdown-it
+  markdownit: {
+    preset: 'default',
+    injected: true,
+    linkify: true,
+    breaks: true
+  },
   /*
    ** Build configuration
    */
@@ -92,8 +100,8 @@ module.exports = {
         require('tailwindcss')('./tailwind.config.js'),
         require('autoprefixer'),
         ...process.env.NODE_ENV === 'production'
-        ? [purgecss]
-        : []
+          ? [purgecss]
+          : []
       ]
     },
     /*
