@@ -1,8 +1,12 @@
 <template>
   <div class="flex w-full h-full">
     <form class="flex-1 p-4" @submit.prevent="submit">
-      <h1 v-if="edit" class="text-3xl">Edit Post</h1>
-      <h1 v-else class="text-3xl">New Post</h1>
+      <h1 v-if="edit" class="text-3xl">
+        Edit Post
+      </h1>
+      <h1 v-else class="text-3xl">
+        New Post
+      </h1>
       <div class="mb-4">
         <input
           v-model="title"

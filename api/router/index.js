@@ -2,7 +2,7 @@ import express from 'express'
 import bodyParser from 'body-parser'
 import Sequelize from 'sequelize'
 import jwt from 'jsonwebtoken'
-import { Post, User } from '../../models'
+import { Post, User, Category } from '../../models'
 const passport = require('../passport')
 
 const Op = Sequelize.Op
@@ -39,7 +39,6 @@ export const createRouter = () => {
 
   router.post('/api/posts', passport.authenticate('jwt', { session: false }), (req, res) => {
     const { title, body, published } = req.body
-    console.log('post published => ', published)
     Post.create({ title, body, published, userId: req.user.id })
       .then((result) => {
         res.json(result)
@@ -62,6 +61,63 @@ export const createRouter = () => {
       })
   })
 
+  /**
+   * Categories
+   */
+  router.get('/api/categories', (req, res) => {
+    Category.findAll()
+      .then((result) => {
+        res.json(result)
+      })
+      .catch((e) => {
+        console.error(e)
+        res.status(500).json(e)
+      })
+  })
+
+  router.get('/api/categories/:id', (req, res) => {
+    Category.findByPk(parseInt(req.params.id), {
+    })
+      .then((result) => {
+        res.json(result)
+      })
+      .catch((e) => {
+        res.status(500).json(e)
+      })
+  })
+
+  router.post('/api/categories', passport.authenticate('jwt', { session: false }), (req, res) => {
+    const { name } = req.body
+    Category.create({ name })
+      .then((result) => {
+        res.json(result)
+      })
+      .catch((e) => {
+        res.status(500).json(e)
+      })
+  })
+
+  router.put('/api/categories/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
+    const { title, body, published } = req.body
+    // TODO: move before update
+    const publishedAt = published ? new Date() : null
+    Post.update({ title, body, published, publishedAt }, { where: { id: parseInt(req.params.id) } })
+      .then((result) => {
+        res.json(result)
+      })
+      .catch((e) => {
+        res.status(500).json(e)
+      })
+  })
+
+  router.delete('/api/categories/:id', passport.authenticate('jwt', { session: false }), async (req, res) => {
+    const { id } = req.params
+    console.log('id => ', id)
+    const category = await Category.findByPk(parseInt(id, 10))
+    console.log('category => ', category)
+    await category.destroy({ force: true })
+    res.json({})
+  })
   /**
    * Authentication
    */

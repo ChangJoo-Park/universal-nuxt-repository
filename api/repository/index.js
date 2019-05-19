@@ -17,7 +17,26 @@ export default $axios => ({
       })
     },
     delete(id) {
-      return $axios.post(`/api/posts/${id}`)
+      return $axios.delete(`/api/posts/${id}`)
+    }
+  },
+  category: {
+    index() {
+      return $axios.get('/api/categories')
+    },
+    create(attributes) {
+      return $axios.post(`/api/categories`, {
+        ...attributes
+      })
+    },
+    update(id, attributes) {
+      return $axios.put(`/api/categories/${id}`, {
+        ...attributes
+      })
+    },
+    delete(id) {
+      console.log('delete category => ', id)
+      return $axios.delete(`/api/categories/${id}`)
     }
   },
   auth: {
