@@ -20,9 +20,9 @@ export default {
       })
   },
   methods: {
-    onSubmit({ title, body, published }) {
+    onSubmit(attributes) {
       return this.$repositories.post
-        .update(this.post.id, { title, body, published })
+        .update(this.post.id, attributes)
         .then((_) => {
           this.$router.push({ name: 'posts-id', params: { id: this.post.id } })
         })

@@ -2,7 +2,7 @@ import express from 'express'
 import bodyParser from 'body-parser'
 import Sequelize from 'sequelize'
 import jwt from 'jsonwebtoken'
-import { Post, User } from '../../models'
+import { Post, User, Category } from '../../models'
 const passport = require('../passport')
 
 const Op = Sequelize.Op
@@ -13,8 +13,9 @@ export const createRouter = () => {
 
   router.get('/api/posts', (req, res) => {
     Post.findAll({
-      include: [{ model: User }],
-      limit: 10
+      include: [{ model: User }, { model: Category }],
+      limit: 10,
+      order: [['createdAt', 'DESC']]
     })
       .then((result) => {
         res.json(result)
@@ -27,7 +28,7 @@ export const createRouter = () => {
 
   router.get('/api/posts/:id', (req, res) => {
     Post.findByPk(parseInt(req.params.id), {
-      include: [{ model: User }]
+      include: [{ model: User }, { model: Category }]
     })
       .then((result) => {
         res.json(result)
@@ -38,9 +39,14 @@ export const createRouter = () => {
   })
 
   router.post('/api/posts', passport.authenticate('jwt', { session: false }), (req, res) => {
-    const { title, body, published } = req.body
-    console.log('post published => ', published)
-    Post.create({ title, body, published, userId: req.user.id })
+    const { title, body, published, categoryId = null } = req.body
+    Post.create({
+      title,
+      body,
+      published,
+      categoryId,
+      userId: req.user.id
+    })
       .then((result) => {
         res.json(result)
       })
@@ -50,6 +56,54 @@ export const createRouter = () => {
   })
 
   router.put('/api/posts/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
+    const { title, body, published, categoryId = null } = req.body
+    const publishedAt = published ? new Date() : null
+    Post.update({ title, body, published, publishedAt, categoryId }, { where: { id: parseInt(req.params.id) } })
+      .then((result) => {
+        res.json(result)
+      })
+      .catch((e) => {
+        res.status(500).json(e)
+      })
+  })
+
+  /**
+   * Categories
+   */
+  router.get('/api/categories', (req, res) => {
+    Category.findAll()
+      .then((result) => {
+        res.json(result)
+      })
+      .catch((e) => {
+        console.error(e)
+        res.status(500).json(e)
+      })
+  })
+
+  router.get('/api/categories/:id', (req, res) => {
+    Category.findByPk(parseInt(req.params.id), {
+    })
+      .then((result) => {
+        res.json(result)
+      })
+      .catch((e) => {
+        res.status(500).json(e)
+      })
+  })
+
+  router.post('/api/categories', passport.authenticate('jwt', { session: false }), (req, res) => {
+    const { name } = req.body
+    Category.create({ name })
+      .then((result) => {
+        res.json(result)
+      })
+      .catch((e) => {
+        res.status(500).json(e)
+      })
+  })
+
+  router.put('/api/categories/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
     const { title, body, published } = req.body
     // TODO: move before update
     const publishedAt = published ? new Date() : null
@@ -62,6 +116,14 @@ export const createRouter = () => {
       })
   })
 
+  router.delete('/api/categories/:id', passport.authenticate('jwt', { session: false }), async (req, res) => {
+    const { id } = req.params
+    console.log('id => ', id)
+    const category = await Category.findByPk(parseInt(id, 10))
+    console.log('category => ', category)
+    await category.destroy({ force: true })
+    res.json({})
+  })
   /**
    * Authentication
    */

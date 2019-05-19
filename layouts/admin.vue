@@ -1,8 +1,8 @@
 <template>
   <div id="admin" class="w-screen h-screen flex">
-    <aside class="bg-gray-400 w-48 flex flex-col shadow-xl">
+    <aside class="bg-gray-400 w-48 flex flex-col shadow-xl" style="min-width: 12rem;">
       <div class="border-b-2">
-        <h1 class="font-mono text-2xl text-center my-4 ">
+        <h1 class="font-mono text-2xl text-center my-4">
           ADMIN
         </h1>
       </div>
@@ -14,6 +14,13 @@
             class="p-3 cursor-pointer bg-gray-500 hover:bg-blue-600 text-white text-xl mb-2"
           >
             Users
+          </nuxt-link>
+          <nuxt-link
+            tag="li"
+            :to="{ name: 'admin-categories' }"
+            class="p-3 cursor-pointer bg-gray-500 hover:bg-blue-600 text-white text-xl mb-2"
+          >
+            Categories
           </nuxt-link>
           <nuxt-link
             tag="li"

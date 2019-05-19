@@ -1,8 +1,12 @@
 <template>
   <div class="flex w-full h-full">
     <form class="flex-1 p-4" @submit.prevent="submit">
-      <h1 v-if="edit" class="text-3xl">Edit Post</h1>
-      <h1 v-else class="text-3xl">New Post</h1>
+      <h1 v-if="edit" class="text-3xl">
+        Edit Post
+      </h1>
+      <h1 v-else class="text-3xl">
+        New Post
+      </h1>
       <div class="mb-4">
         <input
           v-model="title"
@@ -11,6 +15,16 @@
           autofocus
           class="border border-gray-400 w-full outline-none focus:shadow-outline p-3 text-xl"
         >
+      </div>
+      <div class="border mb-4">
+        <select id="" v-model="categoryId" name="" class="w-full">
+          <option value="-1">
+            Uncategorized
+          </option>
+          <option v-for="category in categories" :key="category.id" :value="category.id">
+            {{ category.name }}
+          </option>
+        </select>
       </div>
       <div class="mb-4">
         <textarea
@@ -62,7 +76,9 @@ export default {
       title: '',
       body: '',
       published: false,
-      edit: false
+      edit: false,
+      categoryId: -1,
+      categories: []
     }
   },
   created() {
@@ -70,12 +86,24 @@ export default {
       this.title = this.post.title
       this.body = this.post.body
       this.published = this.post.published
+      this.categoryId = this.post.categoryId || -1
       this.edit = true
     }
+    this.fetchCategory()
   },
   methods: {
+    fetchCategory() {
+      return this.$repositories.category.index()
+        .then((response) => {
+          this.categories = response.data
+        })
+    },
     submit() {
-      this.$emit('submit', { title: this.title, body: this.body, published: this.published })
+      const postBody = { title: this.title, body: this.body, published: this.published, categoryId: this.categoryId }
+      if (!postBody.categoryId || parseInt(postBody.categoryId, 10) === -1) {
+        delete postBody.categoryId
+      }
+      this.$emit('submit', postBody)
     }
   }
 }
