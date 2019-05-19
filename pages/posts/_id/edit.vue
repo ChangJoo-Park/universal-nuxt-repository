@@ -1,8 +1,5 @@
 <template>
   <div>
-    <h1 class="text-4xl">
-      EDIT
-    </h1>
     <post-form :post="post" @submit="onSubmit" />
   </div>
 </template>

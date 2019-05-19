@@ -4,9 +4,7 @@
       <h1 class="text-5xl">
         {{ post.title }}
       </h1>
-      <div class="text-xl">
-        {{ post.body }}
-      </div>
+      <post-content :content="post.body" class="p-4" />
     </div>
     <div class="mb-4">
       {{ post.published }}
@@ -31,8 +29,12 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import PostContent from '~/components/post-content.vue'
 
 export default {
+  components: {
+    PostContent
+  },
   computed: {
     ...mapGetters(['user']),
     author() {
