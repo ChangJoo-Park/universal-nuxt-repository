@@ -12,10 +12,13 @@ passport.use(new JwtStrategy(opts, function (jwt_payload, done) {
   User.findByPk(jwt_payload.id)
     .then(user => {
       if (user) {
-        return done(null, user.get({ plain: true }))
+        return user.get({ plain: true })
       } else {
         return done(null, false)
       }
+    })
+    .then(user => {
+      return done(null, user || false)
     })
     .catch(e => {
       done(e, false)

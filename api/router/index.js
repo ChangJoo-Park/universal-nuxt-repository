@@ -2,10 +2,16 @@ import express from 'express'
 import bodyParser from 'body-parser'
 import Sequelize from 'sequelize'
 import jwt from 'jsonwebtoken'
-import { Post, User, Category } from '../../models'
+import { Post, User, Category, Tag } from '../../models'
 const passport = require('../passport')
 
 const Op = Sequelize.Op
+
+const makePostTags = async (tags = []) => {
+  const tagsPromises = tags.map(name => Tag.findOrCreate({ where: { name }, defaults: { name }}))
+  const storedTags = await Promise.all(tagsPromises)
+  return storedTags.map(result => result[0])
+}
 
 export const createRouter = () => {
   const router = express.Router()
@@ -15,6 +21,9 @@ export const createRouter = () => {
     Post.findAll({
       include: [{ model: User }, { model: Category }],
       limit: 10,
+      where: {
+        published: true
+      },
       order: [['createdAt', 'DESC']]
     })
       .then((result) => {
@@ -26,9 +35,9 @@ export const createRouter = () => {
       })
   })
 
-  router.get('/api/posts/:id', (req, res) => {
+  router.get('/api/posts/:id', async (req, res) => {
     Post.findByPk(parseInt(req.params.id), {
-      include: [{ model: User }, { model: Category }]
+      include: [{ model: User }, { model: Category }, { model: Tag }]
     })
       .then((result) => {
         res.json(result)
@@ -38,33 +47,39 @@ export const createRouter = () => {
       })
   })
 
-  router.post('/api/posts', passport.authenticate('jwt', { session: false }), (req, res) => {
-    const { title, body, published, categoryId = null } = req.body
-    Post.create({
-      title,
-      body,
-      published,
-      categoryId,
-      userId: req.user.id
-    })
-      .then((result) => {
-        res.json(result)
+  router.post('/api/posts', passport.authenticate('jwt', { session: false }), async (req, res) => {
+    const { title, body, published, categoryId = null, tags = [] } = req.body
+    try {
+      const post = await Post.create({
+        title,
+        body,
+        published,
+        categoryId,
+        userId: req.user.id
       })
-      .catch((e) => {
-        res.status(500).json(e)
-      })
+      if (tags && tags.length > 0) {
+        const settableTags = await makePostTags(tags)
+        await post.setTags(settableTags)
+      }
+      res.json(post)
+    } catch (error) {
+      console.log('error => ', error)
+      res.status(500).json(error)
+    }
   })
 
-  router.put('/api/posts/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
-    const { title, body, published, categoryId = null } = req.body
-    const publishedAt = published ? new Date() : null
-    Post.update({ title, body, published, publishedAt, categoryId }, { where: { id: parseInt(req.params.id) } })
-      .then((result) => {
-        res.json(result)
-      })
-      .catch((e) => {
-        res.status(500).json(e)
-      })
+  router.put('/api/posts/:id', passport.authenticate('jwt', { session: false }), async (req, res) => {
+    try {
+      const { title, body, published, categoryId = null, tags = [] } = req.body
+      const publishedAt = published ? new Date() : null
+      await Post.update({ title, body, published, publishedAt, categoryId }, { where: { id: parseInt(req.params.id) } })
+      const post = await Post.findByPk(parseInt(req.params.id))
+      const settableTags = await makePostTags(tags)
+      await post.setTags(settableTags)
+      res.json(post)
+    } catch (error) {
+      res.status(500).json(error)
+    }
   })
 
   /**

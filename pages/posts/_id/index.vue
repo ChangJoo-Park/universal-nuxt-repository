@@ -4,21 +4,20 @@
       <h1 class="text-5xl">
         {{ post.title }}
       </h1>
+      <div>
+        <span v-for="tag in post.Tags" :key="tag.id">{{ tag.name }}&nbsp;</span>
+      </div>
+      <div v-if="post.Category">
+        <span class="text-red-600">{{ post.Category.name }}</span>
+      </div>
+      <div class="mb-4">
+        {{ post.published }}
+      </div>
+      <div class="mb-4">
+        {{ post.User.username }} - {{ post.User.email }}
+      </div>
       <post-content :content="post.body" class="p-4" />
     </div>
-    <div v-if="post.Category">
-      <span class="text-red-600">{{ post.Category.name }}</span>
-    </div>
-    <div class="mb-4">
-      {{ post.published }}
-    </div>
-    <div>
-      {{ post }}
-    </div>
-    <div class="mb-4">
-      {{ post.User }}
-    </div>
-
     <nuxt-link
       v-if="author"
       :to="{ name: 'posts-id-edit', params: { id: post.id } }"

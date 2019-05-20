@@ -14,10 +14,11 @@ module.exports = (sequelize, DataTypes) => {
     }
   });
 
-  Post.associate = function(models) {
+  Post.associate = function (models) {
     // associations can be defined here
     Post.belongsTo(models.User)
     Post.belongsTo(models.Category)
+    Post.belongsToMany(models.Tag, { through: 'PostTags', foreignKey: 'postId' })
   };
   return Post;
 };
