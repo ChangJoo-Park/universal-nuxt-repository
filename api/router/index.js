@@ -242,9 +242,24 @@ export const createRouter = () => {
         res.status(500).json(error)
       })
   })
+
+  router.get('/api/users/:username', passport.authenticate('jwt', { session: false }), (req, res) => {
+    console.log('get username')
+    const { username } = req.params
+    console.log('username in router => ', username)
+    User.findOne({ where: { username }})
+      .then((result) => {
+        res.json(result)
+      })
+      .catch((error) => {
+        res.status(500).json(error)
+      })
+  })
+
   router.get('/api/users/me', passport.authenticate('jwt', { session: false }), (req, res) => {
     res.json({ message: 'Success! You can not see this without a token', user: req.user })
   })
+
 
   return router
 }

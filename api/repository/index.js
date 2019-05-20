@@ -78,6 +78,11 @@ export default $axios => ({
     index() {
       return $axios.get('/api/users')
     },
+
+    show(username) {
+      return $axios.get(`/api/users/${username}`)
+    },
+
     me() {
       return $axios.get('/api/users/me')
     }
