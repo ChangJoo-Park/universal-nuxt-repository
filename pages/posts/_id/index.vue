@@ -5,7 +5,14 @@
         {{ post.title }}
       </h1>
       <div>
-        <span v-for="tag in post.Tags" :key="tag.id">{{ tag.name }}&nbsp;</span>
+        <nuxt-link
+          v-for="tag in post.Tags"
+          :key="tag.id"
+          :to="{ name: 'tags-id', params: { id: tag.id} }"
+          class="text-blue-400 hover:text-blue-600 no-underline"
+        >
+          {{ tag.name }}
+        </nuxt-link>
       </div>
       <div v-if="post.Category">
         <span class="text-red-600">{{ post.Category.name }}</span>

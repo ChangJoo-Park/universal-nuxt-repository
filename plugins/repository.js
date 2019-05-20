@@ -5,6 +5,7 @@ export default (ctx, inject) => {
 
   const repositories = {
     post: repositoryWithAxios.post,
+    tag: repositoryWithAxios.tag,
     auth: repositoryWithAxios.auth,
     user: repositoryWithAxios.user,
     category: repositoryWithAxios.category

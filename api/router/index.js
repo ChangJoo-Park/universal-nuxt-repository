@@ -140,6 +140,40 @@ export const createRouter = () => {
     res.json({})
   })
   /**
+   * Tags
+   */
+  router.get('/api/tags', (req, res) => {
+    Tag.findAll()
+      .then((result) => {
+        res.json(result)
+      })
+      .catch((e) => {
+        console.error(e)
+        res.status(500).json(e)
+      })
+  })
+
+  router.get('/api/tags/:id', (req, res) => {
+    Tag.findByPk(parseInt(req.params.id), {
+      include: [{ model: Post, include: [{ model: User }, {model: Category}] }]
+    })
+      .then((result) => {
+        res.json(result)
+      })
+      .catch((e) => {
+        res.status(500).json(e)
+      })
+  })
+
+  router.delete('/api/tags/:id', passport.authenticate('jwt', { session: false }), async (req, res) => {
+    const { id } = req.params
+    console.log('id => ', id)
+    const category = await Category.findByPk(parseInt(id, 10))
+    console.log('category => ', category)
+    await category.destroy({ force: true })
+    res.json({})
+  })
+  /**
    * Authentication
    */
   router.post('/api/auth/login', (req, res) => {
