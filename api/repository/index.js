@@ -24,6 +24,9 @@ export default $axios => ({
     index() {
       return $axios.get('/api/categories')
     },
+    show(id, attributes) {
+      return $axios.get(`/api/categories/${id}`)
+    },
     create(attributes) {
       return $axios.post(`/api/categories`, {
         ...attributes
@@ -37,6 +40,27 @@ export default $axios => ({
     delete(id) {
       console.log('delete category => ', id)
       return $axios.delete(`/api/categories/${id}`)
+    }
+  },
+  tags: {
+    index() {
+      return $axios.get('/api/tags')
+    },
+    show(id, attributes) {
+      return $axios.get(`/api/tags/${id}`)
+    },
+    create(attributes) {
+      return $axios.post(`/api/tags`, {
+        ...attributes
+      })
+    },
+    update(id, attributes) {
+      return $axios.put(`/api/tags/${id}`, {
+        ...attributes
+      })
+    },
+    delete(id) {
+      return $axios.delete(`/api/tags/${id}`)
     }
   },
   auth: {

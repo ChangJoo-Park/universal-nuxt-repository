@@ -26,7 +26,8 @@ export const createRouter = () => {
       })
   })
 
-  router.get('/api/posts/:id', (req, res) => {
+  router.get('/api/posts/:id', async (req, res) => {
+    const post = await Post.findByPk(parseInt(req.params.id))
     Post.findByPk(parseInt(req.params.id), {
       include: [{ model: User }, { model: Category }]
     })
