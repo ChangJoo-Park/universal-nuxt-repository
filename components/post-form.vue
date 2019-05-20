@@ -37,6 +37,9 @@
         />
       </div>
       <div class="mb-4">
+        <input v-model="tags" type="text" class="border border-gray-400 w-full outline-none focus:shadow-outline p-3">
+      </div>
+      <div class="mb-4">
         <label for="published">
           <input id="published" v-model="published" type="checkbox"> Publish
         </label>
@@ -78,7 +81,8 @@ export default {
       published: false,
       edit: false,
       categoryId: -1,
-      categories: []
+      categories: [],
+      tags: ''
     }
   },
   created() {
@@ -87,6 +91,8 @@ export default {
       this.body = this.post.body
       this.published = this.post.published
       this.categoryId = this.post.categoryId || -1
+      // TODO: tags 처리
+      this.tags = this.post.Tags.map(tag => tag.name).join(',')
       this.edit = true
     }
     this.fetchCategory()
@@ -99,7 +105,8 @@ export default {
         })
     },
     submit() {
-      const postBody = { title: this.title, body: this.body, published: this.published, categoryId: this.categoryId }
+      const tags = this.tags.split(',').map(tag => tag.trim())
+      const postBody = { title: this.title, body: this.body, published: this.published, categoryId: this.categoryId, tags }
       if (!postBody.categoryId || parseInt(postBody.categoryId, 10) === -1) {
         delete postBody.categoryId
       }
