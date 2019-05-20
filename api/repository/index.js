@@ -42,7 +42,7 @@ export default $axios => ({
       return $axios.delete(`/api/categories/${id}`)
     }
   },
-  tags: {
+  tag: {
     index() {
       return $axios.get('/api/tags')
     },
@@ -78,6 +78,11 @@ export default $axios => ({
     index() {
       return $axios.get('/api/users')
     },
+
+    show(username) {
+      return $axios.get(`/api/users/${username}`)
+    },
+
     me() {
       return $axios.get('/api/users/me')
     }

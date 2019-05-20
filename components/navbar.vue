@@ -16,6 +16,13 @@
             ADMIN
           </nuxt-link>
           <nuxt-link
+            v-if="user"
+            :to="{ name: 'users-username', params: { username: user.username} }"
+            class="text-white cursor-pointer no-underline"
+          >
+            {{ user.username }}
+          </nuxt-link>
+          <nuxt-link
             :to="{ name: 'posts-new' }"
             class="text-white cursor-pointer no-underline"
           >
@@ -48,7 +55,7 @@ import Cookies from 'js-cookie'
 
 export default {
   computed: {
-    ...mapGetters(['authenticated', 'admin'])
+    ...mapGetters(['authenticated', 'admin', 'user'])
   },
   methods: {
     ...mapActions(['setUser', 'setToken']),

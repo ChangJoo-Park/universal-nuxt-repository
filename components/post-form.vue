@@ -91,7 +91,6 @@ export default {
       this.body = this.post.body
       this.published = this.post.published
       this.categoryId = this.post.categoryId || -1
-      // TODO: tags 처리
       this.tags = this.post.Tags.map(tag => tag.name).join(',')
       this.edit = true
     }
@@ -105,8 +104,8 @@ export default {
         })
     },
     submit() {
-      const tags = this.tags.split(',').map(tag => tag.trim())
-      const postBody = { title: this.title, body: this.body, published: this.published, categoryId: this.categoryId, tags }
+      const tags = new Set(this.tags.split(',').map(tag => tag.trim()).filter(tag => !!tag))
+      const postBody = { title: this.title, body: this.body, published: this.published, categoryId: this.categoryId, tags: Array.from(tags) }
       if (!postBody.categoryId || parseInt(postBody.categoryId, 10) === -1) {
         delete postBody.categoryId
       }
