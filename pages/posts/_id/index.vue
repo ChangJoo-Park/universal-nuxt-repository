@@ -8,7 +8,7 @@
         <nuxt-link
           v-for="tag in post.Tags"
           :key="tag.id"
-          :to="{ name: 'tags-id', params: { id: tag.id} }"
+          :to="{ name: 'tags-tagname', params: { tagname: tag.name } }"
           class="text-blue-400 hover:text-blue-600 no-underline"
         >
           {{ tag.name }}

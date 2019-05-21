@@ -153,9 +153,18 @@ export const createRouter = () => {
       })
   })
 
-  router.get('/api/tags/:id', (req, res) => {
-    Tag.findByPk(parseInt(req.params.id), {
-      include: [{ model: Post, include: [{ model: User }, {model: Category}] }]
+  router.get('/api/tags/:tagname', (req, res) => {
+    Tag.findOne({
+      where: { name: req.params.tagname },
+      include: [
+        {
+          model: Post,
+          include: [{ model: User }, {model: Category}],
+          where: {
+            published: true
+          }
+        }
+      ]
     })
       .then((result) => {
         res.json(result)
@@ -243,17 +252,11 @@ export const createRouter = () => {
       })
   })
 
-  router.get('/api/users/:username', passport.authenticate('jwt', { session: false }), (req, res) => {
-    console.log('get username')
+  router.get('/api/users/:username', (req, res) => {
     const { username } = req.params
-    console.log('username in router => ', username)
     User.findOne({ where: { username }})
-      .then((result) => {
-        res.json(result)
-      })
-      .catch((error) => {
-        res.status(500).json(error)
-      })
+      .then((result) => res.json(result))
+      .catch((error) => res.status(500).json(error))
   })
 
   router.get('/api/users/me', passport.authenticate('jwt', { session: false }), (req, res) => {
