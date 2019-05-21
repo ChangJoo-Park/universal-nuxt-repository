@@ -104,7 +104,7 @@ export default {
         })
     },
     submit() {
-      const tags = new Set(this.tags.split(',').map(tag => tag.trim()).filter(tag => !!tag))
+      const tags = new Set(this.tags.split(',').map(tag => tag.trim().replace(/[^\w\s]/gi, '')).filter(tag => !!tag))
       const postBody = { title: this.title, body: this.body, published: this.published, categoryId: this.categoryId, tags: Array.from(tags) }
       if (!postBody.categoryId || parseInt(postBody.categoryId, 10) === -1) {
         delete postBody.categoryId
