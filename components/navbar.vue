@@ -16,17 +16,17 @@
             ADMIN
           </nuxt-link>
           <nuxt-link
+            :to="{ name: 'posts-new' }"
+            class="text-white cursor-pointer no-underline"
+          >
+            New Post
+          </nuxt-link>
+          <nuxt-link
             v-if="user"
             :to="{ name: 'users-username', params: { username: user.username} }"
             class="text-white cursor-pointer no-underline"
           >
             {{ user.username }}
-          </nuxt-link>
-          <nuxt-link
-            :to="{ name: 'posts-new' }"
-            class="text-white cursor-pointer no-underline"
-          >
-            NEW POST
           </nuxt-link>
           <a href="#" @click.prevent="logout">Logout</a>
         </template>
