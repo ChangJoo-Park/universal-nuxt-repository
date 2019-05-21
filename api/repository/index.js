@@ -46,8 +46,8 @@ export default $axios => ({
     index() {
       return $axios.get('/api/tags')
     },
-    show(id, attributes) {
-      return $axios.get(`/api/tags/${id}`)
+    show(tagname, attributes) {
+      return $axios.get(`/api/tags/${tagname}`)
     },
     create(attributes) {
       return $axios.post(`/api/tags`, {

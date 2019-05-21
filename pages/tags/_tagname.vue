@@ -5,7 +5,10 @@
     </h1>
     <div v-for="post in tag.Posts" :key="post.id">
       <nuxt-link :to="{ name: 'posts-id', params: { id: post.id} }">
-        {{ post.title }} - {{ post.User.username }} - <span v-if="post.Category">{{ post.Category.name }}</span>
+        {{ post.published }} {{ post.title }} - <span v-if="post.Category">{{ post.Category.name }}</span>
+      </nuxt-link>
+      <nuxt-link :to="{ name: 'users-username', params: { username: post.User.username } }">
+        {{ post.User.username }}
       </nuxt-link>
     </div>
   </div>
@@ -14,7 +17,7 @@
 <script>
 export default {
   asyncData({ app: { $repositories }, params, error }) {
-    return $repositories.tag.show(params.id)
+    return $repositories.tag.show(params.tagname)
       .then((response) => {
         return {
           tag: response.data
